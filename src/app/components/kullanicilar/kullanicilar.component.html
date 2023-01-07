@@ -1,0 +1,187 @@
+<ion-content>
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-title>Kullanıcılar</ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button menu="menum"></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row class="ion-margin-top">
+      <ion-col>
+        <ion-title>Kullanıcılar </ion-title>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-top">
+      <ion-col>
+        <ion-button color="dark" expand="block" id="ekle-modal">Yeni Kullanıcı Ekle</ion-button>
+      </ion-col>
+    </ion-row>
+
+
+
+    <ion-card *ngFor="let kullanici of kullanicilar">
+      <ion-card-header *ngIf="kullanici.rol == '0'" color="danger">
+        <ion-avatar item-start>
+          <img
+            [src]=" kullanici.foto ?? 'https://firebasestorage.googleapis.com/v0/b/ionicdata-ed3d0.appspot.com/o/pngwing.com.png?alt=media&token=ff1d8a04-fdf8-4146-a31a-71750cca08ac'">
+        </ion-avatar>
+        <ion-card-title>
+          <p> <b>&nbsp;&nbsp;{{kullanici.displayName}}</b> </p>
+        </ion-card-title>
+        <ion-card-subtitle>Admin</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-header *ngIf="kullanici.rol == '2'" color="success">
+        <ion-avatar item-start>
+          <img
+            [src]=" kullanici.foto ?? 'https://firebasestorage.googleapis.com/v0/b/ionicdata-ed3d0.appspot.com/o/pngwing.com.png?alt=media&token=ff1d8a04-fdf8-4146-a31a-71750cca08ac'">
+        </ion-avatar>
+        <ion-card-title>
+          <p> <b>&nbsp;&nbsp;{{kullanici.displayName}}</b> </p>
+        </ion-card-title>
+        <ion-card-subtitle>Kullanıcı</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <p><b>E-Mail:&nbsp;&nbsp; </b> </p>
+            <p>{{kullanici.email}}</p>
+          </ion-item>
+          <ion-item>
+            <p><b>Kayıt Tarihi&nbsp;&nbsp;</b></p>
+            <p>{{kullanici.kayTarih | date: 'dd.MM.yyyy HH:mm:ss'}}</p>
+          </ion-item>
+
+          <ion-item>
+
+            <ion-col>
+              <ion-button expand="block" color="danger" (click)="kullaniciSil(kullanici)"
+                id="{{kullanici.uid}}sil-modal">Sil</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block" color="dark" id="{{kullanici.uid}}duzenle-modal"
+                (click)="duzenleModalAyarla(kullanici)">Düzenle</ion-button>
+            </ion-col>
+
+            <!-- DÜZENLE MODAL  -->
+
+            <ion-modal #duzenlemeModal trigger="{{kullanici.uid}}duzenle-modal">
+              <ng-template>
+                <form [formGroup]="kullaniciDuzenleme" (ngSubmit)="kullaniciDuzenle()">
+                  <ion-header>
+                    <ion-toolbar color="dark">
+                      <ion-title>Kullanıcı Düzenleme</ion-title>
+                      <ion-buttons slot="end">
+                        <ion-button (click)="duzenlemeModal.dismiss()">Vazgeç</ion-button>
+                      </ion-buttons>
+                    </ion-toolbar>
+                  </ion-header>
+                  <ion-list>
+                    <ion-item>
+                      <label for="">Ad Soyad&nbsp;&nbsp;</label>
+                      <ion-input formControlName="displayName"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <label for="">E-Mail&nbsp;&nbsp;</label>
+                      <ion-input formControlName="email"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-select placeholder="Rol" formControlName="rol">
+                        <ion-select-option value="0">Admin</ion-select-option>
+                        <ion-select-option value="2">Kullanıcı</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-list>
+                  <ion-row>
+                    <ion-col>
+                      <ion-button expand="block" color="dark"><ion-input value="Gönder"
+                          type="submit"></ion-input></ion-button>
+                    </ion-col>
+                  </ion-row>
+                </form>
+              </ng-template>
+            </ion-modal>
+
+
+            <!-- SİL MODAL  -->
+
+            <ion-modal #silmeModal trigger="{{kullanici.uid}}sil-modal"
+              [initialBreakpoint]="0.25" [breakpoints]="[0, 0.25, 0.5, 0.75]" handleBehavior="cycle">
+              <ng-template>
+                <ion-header>
+                  <ion-toolbar color="dark">
+                    <ion-title>Gönderi Silme</ion-title>
+                  </ion-toolbar>
+                </ion-header>
+                <ion-content>
+                  <p>{{secKullanici.displayName}} adlı kullanıcı ve bu kullanıcıya ait tüm gönderiler silinecektir.</p>
+                  <p>Onaylıyor Musunuz ?</p>
+                  <ion-row>
+                    <ion-col>
+                      <ion-button (click)="kullaniciSilKaydet()" color="danger" expand="block">Sil</ion-button>
+                    </ion-col>
+                    <ion-col>
+                      <ion-button (click)="silmeModal.dismiss()" expand="block">Vazgeç</ion-button>
+                    </ion-col>
+                  </ion-row>
+
+
+                </ion-content>
+
+
+
+              </ng-template>
+            </ion-modal>
+
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+
+    </ion-card>
+
+    <ion-modal #eklemeModal trigger="ekle-modal">
+      <ng-template>
+        <form [formGroup]="kullaniciEkleme" (ngSubmit)="kullaniciEkle()">
+          <ion-header>
+            <ion-toolbar color="dark">
+              <ion-title>Kullanıcı Düzenleme</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="eklemeModal.dismiss()">Vazgeç</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-list>
+            <ion-item>
+              <label for="">Ad Soyad&nbsp;&nbsp;</label>
+              <ion-input formControlName="displayName"></ion-input>
+            </ion-item>
+            <ion-item>
+              <label for="">E-Mail&nbsp;&nbsp;</label>
+              <ion-input formControlName="email"></ion-input>
+            </ion-item>
+            <ion-item>
+              <label for="">Parola&nbsp;&nbsp;</label>
+              <ion-input type="password" formControlName="parola"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-select placeholder="Rol" formControlName="rol">
+                <ion-select-option value="0">Admin</ion-select-option>
+                <ion-select-option value="2">Kullanıcı</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" color="dark"><ion-input value="Gönder"
+                  type="submit"></ion-input></ion-button>
+            </ion-col>
+          </ion-row>
+        </form>
+      </ng-template>
+    </ion-modal>
+
+  </ion-grid>
+</ion-content>

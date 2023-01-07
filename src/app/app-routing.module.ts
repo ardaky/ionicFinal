@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { KayitComponent } from './components/kayit/kayit.component';
+import { KullanicilarComponent } from './components/kullanicilar/kullanicilar.component';
+import { LoginComponent } from './components/login/login.component';
+import { ProfilComponent } from './components/profil/profil.component';
 
 const routes: Routes = [
-  {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
+  {path:'',component:HomeComponent},
+  {path:'profil',component:ProfilComponent},
+  {path:'login',component:LoginComponent},
+  {path:'kayit',component:KayitComponent},
+  {path:'kullanicilar',component:KullanicilarComponent}
 ];
 
 @NgModule({

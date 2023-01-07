@@ -1,0 +1,68 @@
+<ion-content  *ngIf="uye | async as user">
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-title>Profil</ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button menu="menum"></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid >
+    <ion-row>
+      <ion-col>
+        <img [src]="user.foto ?? 'https://firebasestorage.googleapis.com/v0/b/ionicdata-ed3d0.appspot.com/o/pngwing.com.png?alt=media&token=ff1d8a04-fdf8-4146-a31a-71750cca08ac'">
+        <input #inputField type="file" hidden (change)="ResimYukle($event, user)"/>
+        <ion-button  (click)="inputField.click()" color="dark">Resim Seç</ion-button>
+
+      </ion-col>
+      <ion-col>
+        <ion-item-group>
+          <ion-item-divider color="light">Kişisel Bilgiler</ion-item-divider>
+          <ion-item *ngIf="user.rol == '0'" color="danger">Admin</ion-item>
+          <ion-item *ngIf="user.rol == '2'" color="success">Kullanıcı</ion-item>
+          <ion-item> {{user.displayName}}</ion-item>
+          <ion-item> {{user.email}}</ion-item>
+         
+          <ion-item> <small>Kayıt Tarihi</small> {{user.kayTarih | date:'dd.MM.yyyy HH:mm:ss'}}</ion-item>
+          <ion-button expand="block"  color="dark" id="duzenle-modal" (click)="duzenleModalAyarla(user)">Bilgilerimi Düzenle</ion-button>
+        </ion-item-group>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+
+      </ion-col>
+      
+    </ion-row>
+  </ion-grid>
+ 
+  <ion-modal #duzenlemeModal trigger="duzenle-modal" >
+    <ng-template>
+      <form [formGroup]="kullaniciDuzenleme" (ngSubmit)="kullaniciDuzenle()">
+        <ion-header>
+          <ion-toolbar color="dark">
+            <ion-title>Kullanıcı Düzenleme</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="duzenlemeModal.dismiss()">Vazgeç</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-list>
+          <ion-item>
+            <label for="">Ad Soyad&nbsp;&nbsp;</label>
+            <ion-input formControlName="displayName"></ion-input>
+          </ion-item>
+          <ion-item>
+            <label for="">E-Mail&nbsp;&nbsp;</label>
+            <ion-input formControlName="email"></ion-input>
+          </ion-item>
+        </ion-list>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="block" color="dark"><ion-input value="Gönder" type="submit" (click)="duzenlemeModal.dismiss()"></ion-input></ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ng-template>
+  </ion-modal>
+</ion-content>

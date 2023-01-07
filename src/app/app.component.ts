@@ -1,4 +1,6 @@
+import { FirebaseService } from './services/firebase.service';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,23 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(
+    public fbservisi: FirebaseService,
+    public router: Router
+  ) {}
+
+  uye = this.fbservisi.AktifUyeBilgi;
+
+  OturumKapat() {
+    this.fbservisi.OturumKapat().subscribe(() => {
+      this.router.navigate(['login']);
+    });
+  }
+
+
+
+
+
+
+
 }

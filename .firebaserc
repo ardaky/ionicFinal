@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ionicdata-ed3d0": {
+      "hosting": {
+        "app": [
+          "ionicdata-ed3d0"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ionicdata-ed3d0"
+  }
+}

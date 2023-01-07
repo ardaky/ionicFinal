@@ -1,0 +1,32 @@
+<ion-content>
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-title>Üye Giriş Ekranı</ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button menu="menum"></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-card>
+    <ion-card-header>
+      <h3>Hoşgeldiniz</h3>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>  
+        <ion-item>
+          <ion-icon name="mail"></ion-icon>
+          <ion-label>&nbsp;&nbsp;E-Posta</ion-label>
+          <ion-input type="text" #email></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="key-outline"></ion-icon>
+          <ion-label>&nbsp;&nbsp;Parola</ion-label>
+          <ion-input type="password" #parola></ion-input>
+        </ion-item>
+        <p><br></p>
+        <ion-button expand="block" class="oturumacbutonu" color="dark" (click)="girisYap(email.value,parola.value)">Oturum Aç</ion-button>
+        <ion-button expand="block" class="oturumacbutonu" color="dark" routerLink="/kayit">Kayıt Ol</ion-button>
+      </ion-list> 
+    </ion-card-content>
+  </ion-card>
+</ion-content>
