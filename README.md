@@ -73,6 +73,9 @@ Profil
 
 Profil Sayfalarından da yine bilgilerini düzenleyebilirler veya resim ekleyebilirler.
 
+![image](https://user-images.githubusercontent.com/105427467/211151885-41470c12-3dd6-4b4b-92bc-dd88ac3317fc.png)
+
+
 
 
 
